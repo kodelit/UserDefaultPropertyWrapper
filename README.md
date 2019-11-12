@@ -1,4 +1,4 @@
-# UserDefaults property wrapper
+# UserDefault property wrapper
 
 Skip the boring: [Solution for property with Optional type](#optional-user-default) | [Improved solution form proposal](#improved-user-default)
 
