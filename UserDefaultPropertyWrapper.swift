@@ -35,6 +35,7 @@ public struct UserDefault<T> {
             let udValue = UserDefaults.standard.object(forKey: key) as? T
             switch (udValue as Any) {
             case Optional<Any>.some(let value):
+                //swiftlint:disable:next force_unwrapping
                 return value as! T
             case Optional<Any>.none:
                 return defaultValue
