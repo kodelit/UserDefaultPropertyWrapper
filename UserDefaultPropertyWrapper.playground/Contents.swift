@@ -69,7 +69,7 @@ object.optionalFlag
 
 // any of folowing two lines will crash
 //UserDefaults.standard.set(Optional(Optional<Bool>(nil)), forKey: optionalFlagKey)
-object.optionalFlag = nil // comment this line to go through the following code
+//object.optionalFlag = nil // comment this line to go through the following code
 
 print(Optional<Bool>(nil) as Any)                       // nil
 print(Optional<Bool?>.some(Optional<Bool>(nil)) as Any) // Optional(nil)
@@ -196,12 +196,12 @@ class OSome {
 let fixedObject = OSome()
 
 // property wityout initial value (common case)
-object.someFlag
+fixedObject.someFlag
 
 // property with initial value
-object.flagWithInitialValue // returns initial value
+fixedObject.flagWithInitialValue // returns initial value
 UserDefaults.standard.removeObject(forKey: flagWithInitialValueKey)
-object.flagWithInitialValue // returns default value
+fixedObject.flagWithInitialValue // returns default value
 
 // property with optional value
 fixedObject.betterOptionalFlag
