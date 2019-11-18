@@ -33,31 +33,25 @@ public struct UserDefault<T> {
     public var wrappedValue: T {
         get {
             let value = UserDefaults.standard.object(forKey: key) as? T
-            // try to unwrap value
             switch (value as Any) {
             case Optional<Any>.some(let containedValue):
-                // Unwrapped value is Optional and has value
                 //swiftlint:disable:next force_unwrapping
                 return containedValue as! T
             case Optional<Any>.none:
-                // Unwrapped value is Optional and has no value
                 return defaultValue
             default:
-                // value is not optional
+                // type `T` is not optional
                 return value ?? defaultValue
             }
         }
         set {
-            // try to unwrap value
             switch (newValue as Any) {
             case Optional<Any>.some(let containedValue):
-                // Unwrapped value is Optional and has value
                 UserDefaults.standard.set(containedValue, forKey: key)
             case Optional<Any>.none:
-                // Unwrapped value is Optional and has no value
                 UserDefaults.standard.removeObject(forKey: key)
             default:
-                // value is not optional
+                // type `T` is not optional
                 UserDefaults.standard.set(newValue, forKey: key)
             }
         }
