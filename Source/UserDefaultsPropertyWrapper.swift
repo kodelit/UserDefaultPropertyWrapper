@@ -1,16 +1,15 @@
 //
-//  UserDefaultPropertyWrapper.swift
-//  UserDefaultPropertyWrapper
+//  UserDefaultsPropertyWrapper.swift
+//  UserDefaultsPropertyWrapper
 //
 //  Created by Grzegorz Maciak on 12/11/2019.
 //  Copyright © 2019 kodelit. All rights reserved.
 //  This code is distributed under the terms and conditions of the MIT license.
 //  See: https://opensource.org/licenses/MIT
 //
+//  Implementation details: https://dev.to/kodelit/userdefaults-property-wrapper-issues-solutions-4lk9
 
 import Foundation
-
-//  see: https://github.com/apple/swift-evolution/blob/master/proposals/0258-property-wrappers.md#user-defaults
 
 /// Wrapper for property with non-optional value which should be stored in `UserDefaults.standard`
 /// under the given `key` instead of using backing variable
@@ -33,9 +32,10 @@ public struct UserDefault<T> {
     public var wrappedValue: T {
         get {
             let value = UserDefaults.standard.object(forKey: key) as? T
-            switch (value as Any) {
+            switch value as Any {
+                //swiftlint:disable:next syntactic_sugar
             case Optional<Any>.some(let containedValue):
-                //swiftlint:disable:next force_unwrapping
+                //swiftlint:disable:next force_cast
                 return containedValue as! T
             case Optional<Any>.none:
                 return defaultValue
@@ -45,7 +45,8 @@ public struct UserDefault<T> {
             }
         }
         set {
-            switch (newValue as Any) {
+            switch newValue as Any {
+                //swiftlint:disable:next syntactic_sugar
             case Optional<Any>.some(let containedValue):
                 UserDefaults.standard.set(containedValue, forKey: key)
             case Optional<Any>.none:

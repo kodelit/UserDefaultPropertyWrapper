@@ -13,14 +13,14 @@ However, everyone is focusing only on the simplest cases but no one is speaking 
 
 This repo contains:
 
-- code of the solution `UserDefaultPropertyWrapper.swift`,
+- code of the solution `UserDefaultsPropertyWrapper.swift`,
 - playground with some code showing how it works and where is the issue,
 - images showing errors used in the article.
 
 
 ## Preview of the solution
 
-Here you can take a look on the content of the `UserDefaultPropertyWrapper.swift`
+Here you can take a look on the content of the `UserDefaultsPropertyWrapper.swift`
 
 ### 1. Solution for property with Optional type
 
