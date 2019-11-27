@@ -13,23 +13,26 @@ class ProposalTests: XCTestCase {
 
     override func setUp() {
         // We have to reset UserDefaults because the values remain between lanches
-        UserDefaults.standard.removeObject(forKey: ProposalUserSettings.Key.someFlag)
-        UserDefaults.standard.removeObject(forKey: ProposalUserSettings.Key.flagWithInitialValue)
-        UserDefaults.standard.removeObject(forKey: ProposalUserSettings.Key.optionalFlagDefaultTrue)
-        UserDefaults.standard.removeObject(forKey: ProposalUserSettings.Key.optionalFlagDefaultNil)
-
+        resetUserDefaults()
         settings = ProposalUserSettings()
     }
 
     override func tearDown() {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
+        resetUserDefaults()
+    }
+    
+    private func resetUserDefaults() {
+        UserDefaults.standard.removeObject(forKey: ProposalUserSettings.Key.someFlag)
+        UserDefaults.standard.removeObject(forKey: ProposalUserSettings.Key.flagWithInitialValue)
+        UserDefaults.standard.removeObject(forKey: ProposalUserSettings.Key.optionalFlagDefaultTrue)
+        UserDefaults.standard.removeObject(forKey: ProposalUserSettings.Key.optionalFlagDefaultNil)
     }
 
     func testNonOptionalTypeProperty() {
         let defaultValue = false
 
         // property wityout initial value (common case)
-        assert(settings.someFlag == defaultValue, "Flag value \(String(describing: settings.optionalFlagDefaultTrue)) is not equal to the default value \(defaultValue)")
+        assert(settings.someFlag == defaultValue, "Flag value \(String(describing: settings.someFlag)) is not equal to the default value \(defaultValue)")
     }
 
     func testProperty_non_optional_with_initial_value() {
@@ -37,9 +40,9 @@ class ProposalTests: XCTestCase {
         let defaultValue = false
 
         // property with initial value
-        assert(settings.flagWithInitialValue == initialValue, "Flag value \(String(describing: settings.optionalFlagDefaultTrue)) is not equal to the initial value \(initialValue)")
+        assert(settings.flagWithInitialValue == initialValue, "Flag value \(String(describing: settings.flagWithInitialValue)) is not equal to the initial value \(initialValue)")
         UserDefaults.standard.removeObject(forKey: ProposalUserSettings.Key.flagWithInitialValue)
-        assert(settings.flagWithInitialValue == defaultValue, "Flag value \(String(describing: settings.optionalFlagDefaultTrue)) is not equal to the default value \(defaultValue)")
+        assert(settings.flagWithInitialValue == defaultValue, "Flag value \(String(describing: settings.flagWithInitialValue)) is not equal to the default value \(defaultValue)")
     }
 
     func testProperty_optional_with_non_nil_as_default_value() {
@@ -59,13 +62,13 @@ class ProposalTests: XCTestCase {
         let defaultValue: Bool? = nil
 
         // property with optional value with `nil` as default
-        assert(settings.optionalFlagDefaultNil == defaultValue, "Flag value \(String(describing: settings.optionalFlagDefaultTrue)) is not equal to the default value \(String(describing: defaultValue))")
+        assert(settings.optionalFlagDefaultNil == defaultValue, "Flag value \(String(describing: settings.optionalFlagDefaultNil)) is not equal to the default value \(String(describing: defaultValue))")
         settings.optionalFlagDefaultNil = false
         assert(settings.optionalFlagDefaultNil == false, "Invalid value")
 
         // !!!: Follwing will crash
         // see: https://dev.to/kodelit/userdefaults-property-wrapper-issues-solutions-4lk9#proposal-setter-issue
         settings.optionalFlagDefaultNil = defaultValue
-        assert(settings.optionalFlagDefaultNil == defaultValue, "Flag value \(String(describing: settings.optionalFlagDefaultTrue)) is not equal to the default value \(String(describing: defaultValue))")
+        assert(settings.optionalFlagDefaultNil == defaultValue, "Flag value \(String(describing: settings.optionalFlagDefaultNil)) is not equal to the default value \(String(describing: defaultValue))")
     }
 }
