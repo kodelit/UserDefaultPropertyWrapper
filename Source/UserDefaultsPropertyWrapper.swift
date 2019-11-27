@@ -11,6 +11,20 @@
 
 import Foundation
 
+public protocol PlistCompatible {}
+
+// MARK: - UserDefaults Compatibile Types
+
+extension String: PlistCompatible {}
+extension Int: PlistCompatible {}
+extension Double: PlistCompatible {}
+extension Float: PlistCompatible {}
+extension Bool: PlistCompatible {}
+extension Date: PlistCompatible {}
+extension Array: PlistCompatible where Element: PlistCompatible {}
+extension Dictionary: PlistCompatible where Key: PlistCompatible, Value: PlistCompatible {}
+extension Data: PlistCompatible {}
+
 /// Wrapper for property with non-optional value which should be stored in `UserDefaults.standard`
 /// under the given `key` instead of using backing variable
 ///
@@ -26,57 +40,46 @@ import Foundation
 ///
 /// For Optional types use `@OptionalUserDefault(key:)` instead.
 @propertyWrapper
-public struct UserDefault<T> {
+public struct UserDefault<T: PlistCompatible> {
     public let key: String
     public let defaultValue: T
     public var wrappedValue: T {
         get {
-            let value = UserDefaults.standard.object(forKey: key) as? T
-            switch value as Any {
-                //swiftlint:disable:next syntactic_sugar
-            case Optional<Any>.some(let containedValue):
-                // support of `RawRepresentable` types
-                if isValidRawRepresentable(containedValue) {
-                    return instantiateS(with: containedValue) ?? defaultValue
-                }
-                //swiftlint:disable:next force_cast
-                return containedValue as! T
-            case Optional<Any>.none:
-                return defaultValue
-            default:
-                // type `T` is not optional
-
-                // support of `RawRepresentable` types
-                if isValidRawRepresentable(value) {
-                    return instantiateS(with: value) ?? defaultValue
-                }
-                return value ?? defaultValue
-            }
+            return UserDefaults.standard.object(forKey: key) as? T ?? defaultValue
         }
         set {
-            switch newValue as Any {
-                //swiftlint:disable:next syntactic_sugar
-            case Optional<Any>.some(let containedValue):
-                if isValidRawRepresentable(containedValue as Any),
-                    let rawValue = rawValue(of: containedValue) {
-                    UserDefaults.standard.set(rawValue, forKey: key)
-                } else {
-                    UserDefaults.standard.set(containedValue, forKey: key)
-                }
-            case Optional<Any>.none:
-                UserDefaults.standard.removeObject(forKey: key)
-            default:
-                // type `T` is not optional
-                if isValidRawRepresentable(newValue),
-                    let rawValue = rawValue(of: newValue) {
-                    UserDefaults.standard.set(rawValue, forKey: key)
-                } else {
-                    UserDefaults.standard.set(newValue, forKey: key)
-                }
-            }
+            UserDefaults.standard.set(newValue, forKey: key)
         }
     }
 
+    public init(key: String, defaultValue: T) {
+        self.key = key
+        self.defaultValue = defaultValue
+    }
+
+    public init(wrappedValue: T, key: String, defaultValue: T) {
+        self.key = key
+        self.defaultValue = defaultValue
+        self.wrappedValue = wrappedValue
+    }
+}
+
+@propertyWrapper
+public struct WrappedUserDefault<T: RawRepresentable> where T.RawValue: PlistCompatible {
+    public let key: String
+    public let defaultValue: T
+    public var wrappedValue: T {
+        get {
+            guard let value = UserDefaults.standard.object(forKey: key) as? T.RawValue else {
+                return defaultValue
+            }
+            return T.init(rawValue: value) ?? defaultValue
+        }
+        set {
+            UserDefaults.standard.set(newValue.rawValue, forKey: key)
+        }
+    }
+    
     public init(key: String, defaultValue: T) {
         self.key = key
         self.defaultValue = defaultValue
@@ -104,7 +107,7 @@ public struct UserDefault<T> {
 ///
 /// For non-optional types use `@UserDefault(key:defaultValue:)` instead.
 @propertyWrapper
-public struct OptionalUserDefault<T> {
+public struct OptionalUserDefault<T: PlistCompatible> {
     public let key: String
     public var wrappedValue: T? {
         get {
@@ -119,14 +122,14 @@ public struct OptionalUserDefault<T> {
         self.key = key
     }
 
-    public init(wrappedValue: T, key: String) {
+    public init(wrappedValue: T?, key: String) {
         self.key = key
         self.wrappedValue = wrappedValue
     }
 }
 
 @propertyWrapper
-public struct OptionalCustomUserDefault<T:RawRepresentable> {
+public struct OptionalWrappedUserDefault<T: RawRepresentable> where T.RawValue: PlistCompatible {
     public let key: String
     public var wrappedValue: T? {
         get {
@@ -144,47 +147,10 @@ public struct OptionalCustomUserDefault<T:RawRepresentable> {
         self.key = key
     }
 
-    public init(wrappedValue: T, key: String) {
+    public init(wrappedValue: T?, key: String) {
         self.key = key
         self.wrappedValue = wrappedValue
     }
 }
 
-// MARK: -  Support of enums with `RawValue` of type `String` or `Int`
 
-private func isValidRawRepresentable<T:RawRepresentable>(_ value:T) -> Bool where T.RawValue == Int {
-    print(#function, "value:", value , "isValid", true)
-    return true
-}
-
-private func isValidRawRepresentable<T:RawRepresentable>(_ value:T) -> Bool where T.RawValue == String {
-    print(#function, "value:", value , "isValid", true)
-    return true
-}
-
-private func isValidRawRepresentable<T>(_ value:T) -> Bool {
-    print(#function, "value:", value , "isValid", false)
-    return false
-}
-
-private func isValidRawRepresentable<T:RawRepresentable>(_ value:T?) -> Bool where T.RawValue == Int {
-    print(#function, "value:", value as Any , "isValid", true)
-    return true
-}
-
-private func isValidRawRepresentable<T:RawRepresentable>(_ value:T?) -> Bool where T.RawValue == String {
-    print(#function, "value:", value as Any , "isValid", true)
-    return true
-}
-
-private func instantiateS<T, V>(with rawValue: V) -> T? { return nil }
-
-private func instantiateS<T:RawRepresentable, V>(with rawValue: V) -> T? where V == T.RawValue {
-    return T.init(rawValue: rawValue)
-}
-
-private func rawValue<T>(of rawRepresentable:T)-> Any? { return nil }
-
-private func rawValue<T:RawRepresentable>(of rawRepresentable:T)-> Any? {
-    return rawRepresentable.rawValue
-}
