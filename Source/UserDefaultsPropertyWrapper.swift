@@ -21,15 +21,16 @@ extension Double: PlistCompatible {}
 extension Float: PlistCompatible {}
 extension Bool: PlistCompatible {}
 extension Date: PlistCompatible {}
+extension Data: PlistCompatible {}
 extension Array: PlistCompatible where Element: PlistCompatible {}
 extension Dictionary: PlistCompatible where Key: PlistCompatible, Value: PlistCompatible {}
-extension Data: PlistCompatible {}
+
 
 /// Wrapper for the property with non-optional value which should be stored in `UserDefaults.standard`
 /// under the given `key` instead of using backing variable
 ///
-/// The value can be only property list objects: `Data`, `String`, `Double`, `Float`, `Int`, `Date`,
-/// `Array`, or `Dictionary`. For `Array` and `Dictionary`
+/// The value can be only property list objects: `Data`, `String`, `Double`, `Float`, `Int`,
+/// `Bool`,`Date`, `Array`, or `Dictionary`. For `Array` and `Dictionary`
 /// objects, their contents must also be of types above. For more details read documentation for
 /// [set(_:forKey:)](apple-reference-documentation://hsvd8Er378)
 /// fo the [UserDefaults](apple-reference-documentation://hsARFaqWd3)
@@ -66,7 +67,7 @@ public struct UserDefault<T: PlistCompatible> {
 /// under the given `key`
 ///
 /// The `T.RawValue` type  has to be one of property list compatibile types:
-/// `Data`, `String`, `Double`, `Float`, `Int`, `Date`, `Array`, or `Dictionary`.
+/// `Data`, `String`, `Double`, `Float`, `Int`, `Bool`, `Date`, `Array`, or `Dictionary`.
 /// For `Array` and `Dictionary` objects, their contents must also be of types above.
 /// For more details read documentation for
 /// [set(_:forKey:)](apple-reference-documentation://hsvd8Er378)
@@ -105,8 +106,8 @@ public struct WrappedUserDefault<T: RawRepresentable> where T.RawValue: PlistCom
 /// Wrapper for the property with optional value which should be stored in `UserDefaults.standard`
 /// under the given `key` instead of using backing variable
 ///
-/// The value can be only property list objects: `Data`, `String`, `Double`, `Float`, `Int`, `Date`,
-/// `Array`, or `Dictionary`. For `Array` and `Dictionary`
+/// The value can be only property list objects: `Data`, `String`, `Double`, `Float`, `Int`,
+/// `Bool`,`Date`, `Array`, or `Dictionary`. For `Array` and `Dictionary`
 /// objects, their contents must also be of types above. For more details read documentation for
 /// [set(_:forKey:)](apple-reference-documentation://hsvd8Er378)
 /// fo the [UserDefaults](apple-reference-documentation://hsARFaqWd3)
@@ -140,7 +141,7 @@ public struct OptionalUserDefault<T: PlistCompatible> {
 /// under the given `key`
 ///
 /// The `T.RawValue` type  has to be one of property list compatibile types:
-/// `Data`, `String`, `Double`, `Float`, `Int`, `Date`, `Array`, or `Dictionary`.
+/// `Data`, `String`, `Double`, `Float`, `Int`, `Bool`, `Date`, `Array`, or `Dictionary`.
 /// For `Array` and `Dictionary` objects, their contents must also be of types above.
 /// For more details read documentation for
 /// [set(_:forKey:)](apple-reference-documentation://hsvd8Er378)
