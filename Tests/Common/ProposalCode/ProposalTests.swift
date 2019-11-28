@@ -13,16 +13,19 @@ class ProposalTests: XCTestCase {
 
     override func setUp() {
         // We have to reset UserDefaults because the values remain between lanches
-        UserDefaults.standard.removeObject(forKey: ProposalUserSettings.Key.someFlag)
-        UserDefaults.standard.removeObject(forKey: ProposalUserSettings.Key.flagWithInitialValue)
-        UserDefaults.standard.removeObject(forKey: ProposalUserSettings.Key.optionalFlagDefaultTrue)
-        UserDefaults.standard.removeObject(forKey: ProposalUserSettings.Key.optionalFlagDefaultNil)
-
+        resetUserDefaults()
         settings = ProposalUserSettings()
     }
 
     override func tearDown() {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
+        resetUserDefaults()
+    }
+    
+    private func resetUserDefaults() {
+        UserDefaults.standard.removeObject(forKey: ProposalUserSettings.Key.someFlag)
+        UserDefaults.standard.removeObject(forKey: ProposalUserSettings.Key.flagWithInitialValue)
+        UserDefaults.standard.removeObject(forKey: ProposalUserSettings.Key.optionalFlagDefaultTrue)
+        UserDefaults.standard.removeObject(forKey: ProposalUserSettings.Key.optionalFlagDefaultNil)
     }
 
     func testNonOptionalTypeProperty() {
