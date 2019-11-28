@@ -22,40 +22,7 @@ This repo contains:
 
 Here you can take a look on the content of the [`UserDefaultsPropertyWrapper.swift`](Source/UserDefaultsPropertyWrapper.swift)
 
-### 1. Solution for property with Optional type
-
-Simple option and maybe preferred by some people is to use separate wrapper for optional values
-
-```swift
-@propertyWrapper
-public struct OptionalUserDefault<T: PlistCompatible> {
-    public let key: String
-    public var wrappedValue: T? {
-        get {
-            return UserDefaults.standard.object(forKey: key) as? T
-        }
-        set {
-            UserDefaults.standard.set(newValue, forKey: key)
-        }
-    }
-
-    public init(key: String) {
-        self.key = key
-    }
-
-    public init(wrappedValue: T?, key: String) {
-        self.key = key
-        self.wrappedValue = wrappedValue
-    }
-}
-```
-
-The solution is not so bad because:
-
-- distinguishes the case where the value is optional
-- there is no need to define `defautlValue` because it is not needed since we expect that the value might not be there.
-
-### 2. Improved solution form proposal
+### 1. Solution for property with Non-Optional type (improved solution form proposal)
 
 There is another solution which allows us to use one wrapper for every mentioned case or at least make it safer.
 
@@ -86,6 +53,41 @@ public struct UserDefault<T: PlistCompatible> {
 }
 ```
 
+### 2. Solution for property with Optional type
+
+Separate wrapper for optional values
+
+```swift
+@propertyWrapper
+public struct OptionalUserDefault<T: PlistCompatible> {
+    public let key: String
+    public var wrappedValue: T? {
+        get {
+            return UserDefaults.standard.object(forKey: key) as? T
+        }
+        set {
+            UserDefaults.standard.set(newValue, forKey: key)
+        }
+    }
+
+    public init(key: String) {
+        self.key = key
+    }
+
+    public init(wrappedValue: T?, key: String) {
+        self.key = key
+        self.wrappedValue = wrappedValue
+    }
+}
+```
+
+The solution is not so bad because:
+
+- distinguishes the case where the value is optional
+- there is no need to define `defautlValue` because it is not needed since we expect that the value might not be there.
+
+
+
 ### 3. What is `PlistCompatible` protocol and what types confroms to it?
 
 ```swift
@@ -111,8 +113,8 @@ Sometimes we store in `UserDefaults` some representation of our custom type. To 
 1. Make them conform to `RawRepresentable` protocol
 2. Use one of property wrappers for types represented by raw value using attributes:
 
-- `@WrappedUserDefault(key:defaultValue:)`
-- `@OptionalWrappedUserDefault(key:)`
+	- `@WrappedUserDefault(key:defaultValue:)`
+	- `@OptionalWrappedUserDefault(key:)`
 
 ### Implementation details
 
