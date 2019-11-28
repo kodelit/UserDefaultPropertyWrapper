@@ -20,15 +20,15 @@ This repo contains:
 
 ## Preview of the solution
 
-Here you can take a look on the content of the `UserDefaultsPropertyWrapper.swift`
+Here you can take a look on the content of the [`UserDefaultsPropertyWrapper.swift`](Source/UserDefaultsPropertyWrapper.swift)
 
 ### 1. Solution for property with Optional type
 
 Simple option and maybe preferred by some people is to use separate wrapper for optional values
 
-```
+```swift
 @propertyWrapper
-public struct OptionalUserDefault<T> {
+public struct OptionalUserDefault<T: PlistCompatible> {
     public let key: String
     public var wrappedValue: T? {
         get {
@@ -38,12 +38,12 @@ public struct OptionalUserDefault<T> {
             UserDefaults.standard.set(newValue, forKey: key)
         }
     }
-	
+
     public init(key: String) {
         self.key = key
     }
-	
-    public init(wrappedValue: T, key: String) {
+
+    public init(wrappedValue: T?, key: String) {
         self.key = key
         self.wrappedValue = wrappedValue
     }
@@ -55,43 +55,122 @@ The solution is not so bad because:
 - distinguishes the case where the value is optional
 - there is no need to define `defautlValue` because it is not needed since we expect that the value might not be there.
 
-However **it does not guaranty that nobody will use `@UserDefault(key:defaultValue:)` attribute to a property with Optional type**.
-
-That's why we should fix the proposal code.
-
 ### 2. Improved solution form proposal
 
 There is another solution which allows us to use one wrapper for every mentioned case or at least make it safer.
 
-```
+```swift
 @propertyWrapper
-public struct UserDefault<T> {
+public struct UserDefault<T: PlistCompatible> {
     public let key: String
     public let defaultValue: T
     public var wrappedValue: T {
         get {
-            let value = UserDefaults.standard.object(forKey: key) as? T
-            switch (value as Any) {
-            case Optional<Any>.some(let containedValue):
-                //swiftlint:disable:next force_unwrapping
-                return containedValue as! T
-            case Optional<Any>.none:
-                return defaultValue
-            default:
-                // type `T` is not optional
-                return value ?? defaultValue
-            }
+            return UserDefaults.standard.object(forKey: key) as? T ?? defaultValue
         }
         set {
-            switch (newValue as Any) {
-            case Optional<Any>.some(let containedValue):
-                UserDefaults.standard.set(containedValue, forKey: key)
-            case Optional<Any>.none:
-                UserDefaults.standard.removeObject(forKey: key)
-            default:
-                // type `T` is not optional
-                UserDefaults.standard.set(newValue, forKey: key)
-            }
+            UserDefaults.standard.set(newValue, forKey: key)
         }
     }
+
+    public init(key: String, defaultValue: T) {
+        self.key = key
+        self.defaultValue = defaultValue
+    }
+
+    public init(wrappedValue: T, key: String, defaultValue: T) {
+        self.key = key
+        self.defaultValue = defaultValue
+        self.wrappedValue = wrappedValue
+    }
+}
+```
+
+### 3. What is `PlistCompatible` protocol and what types confroms to it?
+
+```swift
+public protocol PlistCompatible {}
+
+// MARK: - UserDefaults Compatibile Types
+
+extension String: PlistCompatible {}
+extension Int: PlistCompatible {}
+extension Double: PlistCompatible {}
+extension Float: PlistCompatible {}
+extension Bool: PlistCompatible {}
+extension Date: PlistCompatible {}
+extension Data: PlistCompatible {}
+extension Array: PlistCompatible where Element: PlistCompatible {}
+extension Dictionary: PlistCompatible where Key: PlistCompatible, Value: PlistCompatible {}
+```
+
+## Support for `RawRepresentable` types
+
+Sometimes we store in `UserDefaults` some representation of our custom type. To be able store and reload custom types we just need to
+
+1. Make them conform to `RawRepresentable` protocol
+2. Use one of property wrappers for types represented by raw value using attributes:
+
+- `@WrappedUserDefault(key:defaultValue:)`
+- `@OptionalWrappedUserDefault(key:)`
+
+### Implementation details
+
+#### 1. Non-optional type properties
+```swift
+@propertyWrapper
+public struct WrappedUserDefault<T: RawRepresentable> where T.RawValue: PlistCompatible {
+    public let key: String
+    public let defaultValue: T
+    public var wrappedValue: T {
+        get {
+            guard let value = UserDefaults.standard.object(forKey: key) as? T.RawValue else {
+                return defaultValue
+            }
+            return T.init(rawValue: value) ?? defaultValue
+        }
+        set {
+            UserDefaults.standard.set(newValue.rawValue, forKey: key)
+        }
+    }
+    
+    public init(key: String, defaultValue: T) {
+        self.key = key
+        self.defaultValue = defaultValue
+    }
+
+    public init(wrappedValue: T, key: String, defaultValue: T) {
+        self.key = key
+        self.defaultValue = defaultValue
+        self.wrappedValue = wrappedValue
+    }
+}
+```
+
+#### 2. Optional type properties
+```swift
+@propertyWrapper
+public struct OptionalWrappedUserDefault<T: RawRepresentable> where T.RawValue: PlistCompatible {
+    public let key: String
+    public var wrappedValue: T? {
+        get {
+            guard let value = UserDefaults.standard.object(forKey: key) as? T.RawValue else {
+                return nil
+            }
+            return T.init(rawValue: value)
+        }
+        set {
+            UserDefaults.standard.set(newValue?.rawValue, forKey: key)
+        }
+    }
+
+    public init(key: String) {
+        self.key = key
+    }
+
+    public init(wrappedValue: T?, key: String) {
+        self.key = key
+        self.wrappedValue = wrappedValue
+    }
+}
 ```

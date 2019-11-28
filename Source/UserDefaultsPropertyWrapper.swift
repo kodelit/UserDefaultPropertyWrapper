@@ -25,18 +25,15 @@ extension Array: PlistCompatible where Element: PlistCompatible {}
 extension Dictionary: PlistCompatible where Key: PlistCompatible, Value: PlistCompatible {}
 extension Data: PlistCompatible {}
 
-/// Wrapper for property with non-optional value which should be stored in `UserDefaults.standard`
+/// Wrapper for the property with non-optional value which should be stored in `UserDefaults.standard`
 /// under the given `key` instead of using backing variable
 ///
-/// The value can be only property list objects: `NSData`, `NSString`, `NSNumber`, `NSDate`,
-/// `NSArray`, or `NSDictionary` or their equivalents in Swift. For `NSArray` and `NSDictionary`
-/// objects, their contents must be property list objects. For more information, see
-/// [What is a Property List?](https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/PropertyLists/AboutPropertyLists/AboutPropertyLists.html#//apple_ref/doc/uid/10000048i-CH3-54303)
-/// in
-/// [Property List Programming Guide](https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/PropertyLists/Introduction/Introduction.html#//apple_ref/doc/uid/10000048i)
-/// or about [set(_:forKey:)](apple-reference-documentation://hsvd8Er378)
-/// fo the [UserDefaults](apple-reference-documentation://hsARFaqWd3) class which is utilized
-/// by the wrapper.
+/// The value can be only property list objects: `Data`, `String`, `Double`, `Float`, `Int`, `Date`,
+/// `Array`, or `Dictionary`. For `Array` and `Dictionary`
+/// objects, their contents must also be of types above. For more details read documentation for
+/// [set(_:forKey:)](apple-reference-documentation://hsvd8Er378)
+/// fo the [UserDefaults](apple-reference-documentation://hsARFaqWd3)
+/// class which is utilized by the wrapper.
 ///
 /// For Optional types use `@OptionalUserDefault(key:)` instead.
 @propertyWrapper
@@ -64,6 +61,19 @@ public struct UserDefault<T: PlistCompatible> {
     }
 }
 
+/// Wrapper for the property of non-optional type `T` conforming to `RawRepresentable` protocol
+/// Value is represented by `rawValue` stored in `UserDefaults.standard`
+/// under the given `key`
+///
+/// The `T.RawValue` type  has to be one of property list compatibile types:
+/// `Data`, `String`, `Double`, `Float`, `Int`, `Date`, `Array`, or `Dictionary`.
+/// For `Array` and `Dictionary` objects, their contents must also be of types above.
+/// For more details read documentation for
+/// [set(_:forKey:)](apple-reference-documentation://hsvd8Er378)
+/// fo the [UserDefaults](apple-reference-documentation://hsARFaqWd3)
+/// class which is utilized by the wrapper.
+///
+/// For Optional types use `@OptionalWrappedUserDefault(key:)` instead.
 @propertyWrapper
 public struct WrappedUserDefault<T: RawRepresentable> where T.RawValue: PlistCompatible {
     public let key: String
@@ -92,18 +102,15 @@ public struct WrappedUserDefault<T: RawRepresentable> where T.RawValue: PlistCom
     }
 }
 
-/// Wrapper for property with optional value which should be stored in `UserDefaults.standard`
+/// Wrapper for the property with optional value which should be stored in `UserDefaults.standard`
 /// under the given `key` instead of using backing variable
 ///
-/// The value can be only property list objects: `NSData`, `NSString`, `NSNumber`, `NSDate`,
-/// `NSArray`, or `NSDictionary` or their equivalents in Swift. For `NSArray` and `NSDictionary`
-/// objects, their contents must be property list objects. For more information, see
-/// [What is a Property List?](https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/PropertyLists/AboutPropertyLists/AboutPropertyLists.html#//apple_ref/doc/uid/10000048i-CH3-54303)
-/// in
-/// [Property List Programming Guide](https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/PropertyLists/Introduction/Introduction.html#//apple_ref/doc/uid/10000048i)
-/// or about [set(_:forKey:)](apple-reference-documentation://hsvd8Er378)
-/// fo the [UserDefaults](apple-reference-documentation://hsARFaqWd3) class which is utilized
-/// by the wrapper.
+/// The value can be only property list objects: `Data`, `String`, `Double`, `Float`, `Int`, `Date`,
+/// `Array`, or `Dictionary`. For `Array` and `Dictionary`
+/// objects, their contents must also be of types above. For more details read documentation for
+/// [set(_:forKey:)](apple-reference-documentation://hsvd8Er378)
+/// fo the [UserDefaults](apple-reference-documentation://hsARFaqWd3)
+/// class which is utilized by the wrapper.
 ///
 /// For non-optional types use `@UserDefault(key:defaultValue:)` instead.
 @propertyWrapper
@@ -128,6 +135,19 @@ public struct OptionalUserDefault<T: PlistCompatible> {
     }
 }
 
+/// Wrapper for the property of optional type `T?` conforming to `RawRepresentable` protocol
+/// Value is represented by `rawValue` stored in `UserDefaults.standard`
+/// under the given `key`
+///
+/// The `T.RawValue` type  has to be one of property list compatibile types:
+/// `Data`, `String`, `Double`, `Float`, `Int`, `Date`, `Array`, or `Dictionary`.
+/// For `Array` and `Dictionary` objects, their contents must also be of types above.
+/// For more details read documentation for
+/// [set(_:forKey:)](apple-reference-documentation://hsvd8Er378)
+/// fo the [UserDefaults](apple-reference-documentation://hsARFaqWd3)
+/// class which is utilized by the wrapper.
+///
+/// For non-optional types use `@WrappedUserDefault(key:defaultValue:)` instead.
 @propertyWrapper
 public struct OptionalWrappedUserDefault<T: RawRepresentable> where T.RawValue: PlistCompatible {
     public let key: String
