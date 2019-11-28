@@ -30,7 +30,7 @@ class CommonTests: XCTestCase {
         let defaultValue = false
 
         // property wityout initial value (common case)
-        assert(settings.someFlag == defaultValue, "Flag value \(String(describing: settings.optionalFlagDefaultTrue)) is not equal to the default value \(defaultValue)")
+        assert(settings.someFlag == defaultValue, "Flag value \(String(describing: settings.someFlag)) is not equal to the default value \(defaultValue)")
     }
 
     func testProperty_non_optional_with_initial_value() {
@@ -38,9 +38,9 @@ class CommonTests: XCTestCase {
         let defaultValue = false
 
         // property with initial value
-        assert(settings.flagWithInitialValue == initialValue, "Flag value \(String(describing: settings.optionalFlagDefaultTrue)) is not equal to the initial value \(initialValue)")
+        assert(settings.flagWithInitialValue == initialValue, "Flag value \(String(describing: settings.flagWithInitialValue)) is not equal to the initial value \(initialValue)")
         UserDefaults.standard.removeObject(forKey: UserSettings.Key.flagWithInitialValue)
-        assert(settings.flagWithInitialValue == defaultValue, "Flag value \(String(describing: settings.optionalFlagDefaultTrue)) is not equal to the default value \(defaultValue)")
+        assert(settings.flagWithInitialValue == defaultValue, "Flag value \(String(describing: settings.flagWithInitialValue)) is not equal to the default value \(defaultValue)")
     }
 
     func testProperty_optional_with_non_nil_as_default_value() {
@@ -58,11 +58,11 @@ class CommonTests: XCTestCase {
         let defaultValue: Bool? = nil
 
         // property with optional value with `nil` as default
-        assert(settings.optionalFlagDefaultNil == defaultValue, "Flag value \(String(describing: settings.optionalFlagDefaultTrue)) is not equal to the default value \(String(describing: defaultValue))")
+        assert(settings.optionalFlagDefaultNil == defaultValue, "Flag value \(String(describing: settings.optionalFlagDefaultNil)) is not equal to the default value \(String(describing: defaultValue))")
         settings.optionalFlagDefaultNil = false
         assert(settings.optionalFlagDefaultNil == false, "Invalid value")
         settings.optionalFlagDefaultNil = nil
-        assert(settings.optionalFlagDefaultNil == nil, "Flag value \(String(describing: settings.optionalFlagDefaultTrue)) is not equal to the default value \(String(describing: defaultValue))")
+        assert(settings.optionalFlagDefaultNil == nil, "Flag value \(String(describing: settings.optionalFlagDefaultNil)) is not equal to the default value \(String(describing: defaultValue))")
     }
 
     func testProperty_optional_without_default_value() {
