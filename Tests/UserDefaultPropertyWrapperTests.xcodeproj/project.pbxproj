@@ -21,6 +21,8 @@
 		59127C322382C233001183B8 /* ProposalUserSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59127C142382B648001183B8 /* ProposalUserSettings.swift */; };
 		59127C332382C234001183B8 /* ProposalImplementation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59127C0C2382B588001183B8 /* ProposalImplementation.swift */; };
 		59127C342382C234001183B8 /* ProposalUserSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59127C142382B648001183B8 /* ProposalUserSettings.swift */; };
+		59D9E8ED2391E65D00082ACC /* StorageManipulatingProtocolTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59D9E8EC2391E65D00082ACC /* StorageManipulatingProtocolTests.swift */; };
+		59D9E8EE2391E65D00082ACC /* StorageManipulatingProtocolTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59D9E8EC2391E65D00082ACC /* StorageManipulatingProtocolTests.swift */; };
 		A19E0ED1238F353500A636A8 /* UserDefaultsPropertyWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59127C012382ACB2001183B8 /* UserDefaultsPropertyWrapper.swift */; };
 		A19E0ED2238F353D00A636A8 /* UserSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59127C062382AD83001183B8 /* UserSettings.swift */; };
 /* End PBXBuildFile section */
@@ -46,6 +48,7 @@
 		59127C292382C201001183B8 /* ProposalTests_ios.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProposalTests_ios.swift; sourceTree = "<group>"; };
 		59127C2B2382C201001183B8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		59C51A7E238303270002D580 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
+		59D9E8EC2391E65D00082ACC /* StorageManipulatingProtocolTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageManipulatingProtocolTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -147,6 +150,7 @@
 			children = (
 				59127C062382AD83001183B8 /* UserSettings.swift */,
 				59127C092382B3C0001183B8 /* CommonTests.swift */,
+				59D9E8EC2391E65D00082ACC /* StorageManipulatingProtocolTests.swift */,
 			);
 			path = FixedCode;
 			sourceTree = "<group>";
@@ -334,6 +338,7 @@
 				A19E0ED2238F353D00A636A8 /* UserSettings.swift in Sources */,
 				59127BEF2382AC0F001183B8 /* Tests_ios.swift in Sources */,
 				A19E0ED1238F353500A636A8 /* UserDefaultsPropertyWrapper.swift in Sources */,
+				59D9E8EE2391E65D00082ACC /* StorageManipulatingProtocolTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -345,6 +350,7 @@
 				59127C032382ACB2001183B8 /* UserDefaultsPropertyWrapper.swift in Sources */,
 				59127C082382AD83001183B8 /* UserSettings.swift in Sources */,
 				59127BFB2382AC24001183B8 /* Tests_macos.swift in Sources */,
+				59D9E8ED2391E65D00082ACC /* StorageManipulatingProtocolTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
