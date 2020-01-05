@@ -35,9 +35,6 @@ public class UserSettings {
 
     @UserDefault(key: Key.someFlag, defaultValue: false)
     public var someFlag: Bool
-
-    @UserDefault(key: Key.flagWithInitialValue, defaultValue: false)
-    public var flagWithInitialValue: Bool = true
     
     @UserDefault(key: Key.arrayOfStrings, defaultValue: [])
     public var arrayOfStrings: [String]

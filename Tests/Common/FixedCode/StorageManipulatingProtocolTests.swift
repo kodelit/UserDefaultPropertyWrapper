@@ -8,8 +8,7 @@
 import XCTest
 
 enum Constants {
-    static let languageWithInitialValueKey = "languageWithInitialValueKey"
-    static let languageWithoutInitialValueKey = "languageKey"
+    static let languageKey = "languageKey"
 }
 
 enum Language: String {
@@ -19,36 +18,15 @@ enum Language: String {
 }
 
 struct Settings {
-    @WrappedUserDefault(key: Constants.languageWithInitialValueKey, defaultValue: .english)
-    var languageWithInitialValue: Language = .finnish
+    @WrappedUserDefault(key: Constants.languageKey, defaultValue: .english)
+    var language: Language
 
-    @WrappedUserDefault(key: Constants.languageWithoutInitialValueKey, defaultValue: .english)
-    var languageWithoutInitialValue: Language
-
-    var defaultValueOf_languageWithInitialValue: Language {
-        return _languageWithInitialValue.defaultValue
-    }
-
-    var defaultValueOf_languageWithoutInitialValue: Language {
-        return _languageWithoutInitialValue.defaultValue
-    }
-
-    var initialValueOf_languageWithInitialValue: Language? {
-        return _languageWithInitialValue.initialValue
-    }
-
-    var initialValueOf_languageWithoutInitialValue: Language? {
-        return _languageWithoutInitialValue.initialValue
-    }
-
-    func resetStorageValues() {
-        _languageWithInitialValue.resetStorageValue()
-        _languageWithoutInitialValue.resetStorageValue()
+    var defaultValueOf_language: Language {
+        return _language.defaultValue
     }
 
     func removeStorageValues() {
-        _languageWithInitialValue.removeStorageValue()
-        _languageWithoutInitialValue.removeStorageValue()
+        _language.removeStorageValue()
     }
 }
 
@@ -56,8 +34,7 @@ struct Settings {
 
 class StorageManipulatingProtocolTests: XCTestCase {
     private func reset() {
-        UserDefaults.standard.removeObject(forKey: Constants.languageWithInitialValueKey)
-        UserDefaults.standard.removeObject(forKey: Constants.languageWithoutInitialValueKey)
+        UserDefaults.standard.removeObject(forKey: Constants.languageKey)
     }
 
     override func setUp() {
@@ -70,91 +47,29 @@ class StorageManipulatingProtocolTests: XCTestCase {
 
     // MARK: - Reseting and Removeing of stored value
 
-    func testWrappedUserDefault_propertyWithInitWalue_reset_and_remove_storage_value() {
-        // MARK: property with initialValue
-        let key = Constants.languageWithInitialValueKey
-
-        XCTAssertNil(UserDefaults.standard.object(forKey: key))
-
-        var settings = Settings()
-        XCTAssertNotNil(UserDefaults.standard.object(forKey: key))
-
-        let defaultValue = settings.defaultValueOf_languageWithInitialValue
-        let initialValue = settings.initialValueOf_languageWithInitialValue
-
-        var lang = UserDefaults.standard.object(forKey: key) as? Language.RawValue
-        XCTAssertNotNil(lang)
-        XCTAssertEqual(Language(rawValue: lang!), initialValue)
-        XCTAssertEqual(settings.languageWithInitialValue, initialValue)
-
-        let customValue = Language.swedish
-        settings.languageWithInitialValue = customValue
-        XCTAssertNotNil(UserDefaults.standard.object(forKey: key))
-
-        lang = UserDefaults.standard.object(forKey: key) as? Language.RawValue
-        XCTAssertNotNil(lang)
-        XCTAssertEqual(Language(rawValue: lang!), customValue)
-        XCTAssertEqual(settings.languageWithInitialValue, customValue)
-
-        // removeing of the storage value should cause that the property returns `initialValue` if was defined or `defaultValue` in other case
-        settings.resetStorageValues()
-        XCTAssertNotNil(UserDefaults.standard.object(forKey: key))
-
-        lang = UserDefaults.standard.object(forKey: key) as? Language.RawValue
-        XCTAssertNotNil(lang)
-        XCTAssertEqual(Language(rawValue: lang!), initialValue)
-        XCTAssertEqual(settings.languageWithInitialValue, initialValue)
-
-        // removeing of the storage value should cause that the property returns `defaultValue`
-        settings.removeStorageValues()
-        XCTAssertNil(UserDefaults.standard.object(forKey: key))
-
-        lang = UserDefaults.standard.object(forKey: key) as? Language.RawValue
-        XCTAssertNil(lang)
-        XCTAssertEqual(settings.languageWithInitialValue, defaultValue)
-
-        settings.resetStorageValues()
-        XCTAssertNotNil(UserDefaults.standard.object(forKey: key))
-
-        lang = UserDefaults.standard.object(forKey: key) as? Language.RawValue
-        XCTAssertNotNil(lang)
-        XCTAssertEqual(Language(rawValue: lang!), initialValue)
-        XCTAssertEqual(settings.languageWithInitialValue, initialValue)
-    }
-
     func testWrappedUserDefault_reseting_and_removing_storage_value_property_without_initial_value() {
         // MARK: property without initialValue
 
-        let key = Constants.languageWithoutInitialValueKey
+        let key = Constants.languageKey
         XCTAssertNil(UserDefaults.standard.object(forKey: key))
 
         var settings = Settings()
         XCTAssertNil(UserDefaults.standard.object(forKey: key))
 
-        let defaultValue = settings.defaultValueOf_languageWithoutInitialValue
-        let initialValue = settings.initialValueOf_languageWithoutInitialValue
-        XCTAssertNil(initialValue)
+        let defaultValue = settings.defaultValueOf_language
 
         var lang = UserDefaults.standard.object(forKey: key) as? Language.RawValue
         XCTAssertNil(lang)
-        XCTAssertEqual(settings.languageWithoutInitialValue, defaultValue)
+        XCTAssertEqual(settings.language, defaultValue)
 
         let customValue = Language.swedish
-        settings.languageWithoutInitialValue = customValue
+        settings.language = customValue
         XCTAssertNotNil(UserDefaults.standard.object(forKey: key))
 
         lang = UserDefaults.standard.object(forKey: key) as? Language.RawValue
         XCTAssertNotNil(lang)
         XCTAssertEqual(Language(rawValue: lang!), customValue)
-        XCTAssertEqual(settings.languageWithoutInitialValue, customValue)
-
-        // removeing of the storage value should cause that the property returns `initialValue` if was defined or `defaultValue` in other case
-        settings.resetStorageValues()
-        XCTAssertNil(UserDefaults.standard.object(forKey: key))
-
-        lang = UserDefaults.standard.object(forKey: key) as? Language.RawValue
-        XCTAssertNil(lang)
-        XCTAssertEqual(settings.languageWithoutInitialValue, defaultValue)
+        XCTAssertEqual(settings.language, customValue)
 
         // removeing of the storage value should cause that the property returns `defaultValue`
         settings.removeStorageValues()
@@ -162,13 +77,6 @@ class StorageManipulatingProtocolTests: XCTestCase {
 
         lang = UserDefaults.standard.object(forKey: key) as? Language.RawValue
         XCTAssertNil(lang)
-        XCTAssertEqual(settings.languageWithoutInitialValue, defaultValue)
-
-        settings.resetStorageValues()
-        XCTAssertNil(UserDefaults.standard.object(forKey: key))
-
-        lang = UserDefaults.standard.object(forKey: key) as? Language.RawValue
-        XCTAssertNil(lang)
-        XCTAssertEqual(settings.languageWithoutInitialValue, defaultValue)
+        XCTAssertEqual(settings.language, defaultValue)
     }
 }

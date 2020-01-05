@@ -23,7 +23,6 @@ class CommonTests: XCTestCase {
     
     private func resetUserDefaults() {
         UserDefaults.standard.removeObject(forKey: UserSettings.Key.someFlag)
-        UserDefaults.standard.removeObject(forKey: UserSettings.Key.flagWithInitialValue)
         UserDefaults.standard.removeObject(forKey: UserSettings.Key.arrayOfStrings)
         UserDefaults.standard.removeObject(forKey: UserSettings.Key.betterOptionalFlag)
         
@@ -41,16 +40,6 @@ class CommonTests: XCTestCase {
         XCTAssert(settings.someFlag == defaultValue, "Flag value \(String(describing: settings.someFlag)) is not equal to the default value \(defaultValue)")
     }
 
-    func testProperty_non_optional_with_initial_value() {
-        let initialValue = true
-        let defaultValue = false
-
-        // property with initial value
-        XCTAssert(settings.flagWithInitialValue == initialValue, "Flag value \(String(describing: settings.flagWithInitialValue)) is not equal to the initial value \(initialValue)")
-        UserDefaults.standard.removeObject(forKey: UserSettings.Key.flagWithInitialValue)
-        XCTAssert(settings.flagWithInitialValue == defaultValue, "Flag value \(String(describing: settings.flagWithInitialValue)) is not equal to the default value \(defaultValue)")
-    }
-    
     func testProperty_array_of_strings() {
         // `UserDefaults` value not set
         XCTAssertNil(UserDefaults.standard.object(forKey: UserSettings.Key.arrayOfStrings))

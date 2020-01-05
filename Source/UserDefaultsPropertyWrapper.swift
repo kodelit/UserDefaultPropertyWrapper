@@ -41,7 +41,6 @@ extension Dictionary: PlistCompatible where Key: PlistCompatible, Value: PlistCo
 public struct UserDefault<T: PlistCompatible> : UserDefaultStorageManipulating {
     public let key: String
     public let defaultValue: T
-    public var initialValue: T?
     public var wrappedValue: T {
         get {
             return UserDefaults.standard.object(forKey: key) as? T ?? defaultValue
@@ -54,13 +53,6 @@ public struct UserDefault<T: PlistCompatible> : UserDefaultStorageManipulating {
     public init(key: String, defaultValue: T) {
         self.key = key
         self.defaultValue = defaultValue
-    }
-
-    public init(wrappedValue: T, key: String, defaultValue: T) {
-        self.key = key
-        self.defaultValue = defaultValue
-        self.wrappedValue = wrappedValue
-        self.initialValue = wrappedValue
     }
 }
 
@@ -81,7 +73,6 @@ public struct UserDefault<T: PlistCompatible> : UserDefaultStorageManipulating {
 public struct WrappedUserDefault<T: RawRepresentable> : UserDefaultStorageManipulating where T.RawValue: PlistCompatible {
     public let key: String
     public let defaultValue: T
-    public var initialValue: T?
     public var wrappedValue: T {
         get {
             guard let value = UserDefaults.standard.object(forKey: key) as? T.RawValue else {
@@ -97,13 +88,6 @@ public struct WrappedUserDefault<T: RawRepresentable> : UserDefaultStorageManipu
     public init(key: String, defaultValue: T) {
         self.key = key
         self.defaultValue = defaultValue
-    }
-
-    public init(wrappedValue: T, key: String, defaultValue: T) {
-        self.key = key
-        self.defaultValue = defaultValue
-        self.wrappedValue = wrappedValue
-        self.initialValue = wrappedValue
     }
 }
 
@@ -121,7 +105,6 @@ public struct WrappedUserDefault<T: RawRepresentable> : UserDefaultStorageManipu
 @propertyWrapper
 public struct OptionalUserDefault<T: PlistCompatible> : UserDefaultStorageManipulating {
     public let key: String
-    public var initialValue: T?
     public var wrappedValue: T? {
         get {
             return UserDefaults.standard.object(forKey: key) as? T
@@ -133,12 +116,6 @@ public struct OptionalUserDefault<T: PlistCompatible> : UserDefaultStorageManipu
 
     public init(key: String) {
         self.key = key
-    }
-
-    public init(wrappedValue: T?, key: String) {
-        self.key = key
-        self.wrappedValue = wrappedValue
-        self.initialValue = wrappedValue
     }
 }
 
@@ -158,7 +135,6 @@ public struct OptionalUserDefault<T: PlistCompatible> : UserDefaultStorageManipu
 @propertyWrapper
 public struct OptionalWrappedUserDefault<T: RawRepresentable> : UserDefaultStorageManipulating where T.RawValue: PlistCompatible {
     public let key: String
-    public var initialValue: T?
     public var wrappedValue: T? {
         get {
             guard let value = UserDefaults.standard.object(forKey: key) as? T.RawValue else {
@@ -174,12 +150,6 @@ public struct OptionalWrappedUserDefault<T: RawRepresentable> : UserDefaultStora
     public init(key: String) {
         self.key = key
     }
-
-    public init(wrappedValue: T?, key: String) {
-        self.key = key
-        self.wrappedValue = wrappedValue
-        self.initialValue = wrappedValue
-    }
 }
 
 // MARK: - Reseting/Removing property value from UserDefaults
@@ -187,30 +157,11 @@ public struct OptionalWrappedUserDefault<T: RawRepresentable> : UserDefaultStora
 public protocol UserDefaultStorageManipulating {
     associatedtype T
     var key: String { get }
-    var initialValue: T? { get }
-
-    /// Overrides value in the storage with `initialValue`
-    ///
-    /// Rewrites `initialValue` directly to the storage (`UserDefaults.standard`).
-    /// If `initialValue` was not defined (is equal `nil`) this method bahaves the same as `removeStorageValue()`
-    func resetStorageValue()
 
     /// Removes value from the storage.
     ///
     /// Removes value directly form the storage (`UserDefaults.standard`).
     func removeStorageValue()
-}
-
-extension UserDefaultStorageManipulating where T: PlistCompatible {
-    public func resetStorageValue() {
-        UserDefaults.standard.set(initialValue, forKey: key)
-    }
-}
-
-extension UserDefaultStorageManipulating where T: RawRepresentable {
-    public func resetStorageValue() {
-        UserDefaults.standard.set(initialValue?.rawValue, forKey: key)
-    }
 }
 
 extension UserDefaultStorageManipulating {
