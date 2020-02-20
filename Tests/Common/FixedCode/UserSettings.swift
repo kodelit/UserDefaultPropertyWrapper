@@ -20,7 +20,7 @@ class UserSettings {
     public var someFlag: Bool
 
     @UserDefault(key: Key.flagWithInitialValue, defaultValue: false)
-    public var flagWithInitialValue: Bool = true
+    public var flagWithInitialValue: Bool// = true
 
     @UserDefault(key: Key.optionalFlagDefaultTrue, defaultValue: true)
     public var optionalFlagDefaultTrue: Bool?

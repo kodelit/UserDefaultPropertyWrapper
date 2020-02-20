@@ -34,11 +34,11 @@ class CommonTests: XCTestCase {
     }
 
     func testProperty_non_optional_with_initial_value() {
-        let initialValue = true
+//        let initialValue = true
         let defaultValue = false
 
         // property with initial value
-        assert(settings.flagWithInitialValue == initialValue, "Flag value \(String(describing: settings.flagWithInitialValue)) is not equal to the initial value \(initialValue)")
+        //assert(settings.flagWithInitialValue == initialValue, "Flag value \(String(describing: settings.flagWithInitialValue)) is not equal to the initial value \(initialValue)")
         UserDefaults.standard.removeObject(forKey: UserSettings.Key.flagWithInitialValue)
         assert(settings.flagWithInitialValue == defaultValue, "Flag value \(String(describing: settings.flagWithInitialValue)) is not equal to the default value \(defaultValue)")
     }

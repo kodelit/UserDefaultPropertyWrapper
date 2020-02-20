@@ -57,17 +57,6 @@ public struct UserDefault<T> {
             }
         }
     }
-
-    public init(key: String, defaultValue: T) {
-        self.key = key
-        self.defaultValue = defaultValue
-    }
-
-    public init(wrappedValue: T, key: String, defaultValue: T) {
-        self.key = key
-        self.defaultValue = defaultValue
-        self.wrappedValue = wrappedValue
-    }
 }
 
 /// Wrapper for property with optional value which should be stored in `UserDefaults.standard`
@@ -94,14 +83,5 @@ public struct OptionalUserDefault<T> {
         set {
             UserDefaults.standard.set(newValue, forKey: key)
         }
-    }
-
-    public init(key: String) {
-        self.key = key
-    }
-
-    public init(wrappedValue: T, key: String) {
-        self.key = key
-        self.wrappedValue = wrappedValue
     }
 }

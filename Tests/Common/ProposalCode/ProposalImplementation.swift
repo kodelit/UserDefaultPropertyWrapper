@@ -32,6 +32,7 @@ import Foundation
         print("Property Init with key: '\(key)', defaultValue: '\(defaultValue)'")
     }
 
+    // !!!: there was no such initializer in the proposal, it's my terrible idea
     public init(wrappedValue: T, key: String, defaultValue: T) {
         print("Property Init with initialValue: '\(wrappedValue)', for key: '\(key)', defaultValue: '\(defaultValue)'")
         self.key = key
