@@ -49,11 +49,6 @@ public struct UserDefault<T: PlistCompatible> : UserDefaultStorageManipulating {
             UserDefaults.standard.set(newValue, forKey: key)
         }
     }
-
-    public init(key: String, defaultValue: T) {
-        self.key = key
-        self.defaultValue = defaultValue
-    }
 }
 
 /// Wrapper for the property of non-optional type `T` conforming to `RawRepresentable` protocol
@@ -84,11 +79,6 @@ public struct WrappedUserDefault<T: RawRepresentable> : UserDefaultStorageManipu
             UserDefaults.standard.set(newValue.rawValue, forKey: key)
         }
     }
-    
-    public init(key: String, defaultValue: T) {
-        self.key = key
-        self.defaultValue = defaultValue
-    }
 }
 
 /// Wrapper for the property with optional value which should be stored in `UserDefaults.standard`
@@ -112,10 +102,6 @@ public struct OptionalUserDefault<T: PlistCompatible> : UserDefaultStorageManipu
         set {
             UserDefaults.standard.set(newValue, forKey: key)
         }
-    }
-
-    public init(key: String) {
-        self.key = key
     }
 }
 
@@ -145,10 +131,6 @@ public struct OptionalWrappedUserDefault<T: RawRepresentable> : UserDefaultStora
         set {
             UserDefaults.standard.set(newValue?.rawValue, forKey: key)
         }
-    }
-
-    public init(key: String) {
-        self.key = key
     }
 }
 
