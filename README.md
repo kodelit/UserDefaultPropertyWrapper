@@ -39,17 +39,6 @@ public struct UserDefault<T: PlistCompatible> {
             UserDefaults.standard.set(newValue, forKey: key)
         }
     }
-
-    public init(key: String, defaultValue: T) {
-        self.key = key
-        self.defaultValue = defaultValue
-    }
-
-    public init(wrappedValue: T, key: String, defaultValue: T) {
-        self.key = key
-        self.defaultValue = defaultValue
-        self.wrappedValue = wrappedValue
-    }
 }
 ```
 
@@ -68,15 +57,6 @@ public struct OptionalUserDefault<T: PlistCompatible> {
         set {
             UserDefaults.standard.set(newValue, forKey: key)
         }
-    }
-
-    public init(key: String) {
-        self.key = key
-    }
-
-    public init(wrappedValue: T?, key: String) {
-        self.key = key
-        self.wrappedValue = wrappedValue
     }
 }
 ```
@@ -135,17 +115,6 @@ public struct WrappedUserDefault<T: RawRepresentable> where T.RawValue: PlistCom
             UserDefaults.standard.set(newValue.rawValue, forKey: key)
         }
     }
-    
-    public init(key: String, defaultValue: T) {
-        self.key = key
-        self.defaultValue = defaultValue
-    }
-
-    public init(wrappedValue: T, key: String, defaultValue: T) {
-        self.key = key
-        self.defaultValue = defaultValue
-        self.wrappedValue = wrappedValue
-    }
 }
 ```
 
@@ -164,15 +133,6 @@ public struct OptionalWrappedUserDefault<T: RawRepresentable> where T.RawValue: 
         set {
             UserDefaults.standard.set(newValue?.rawValue, forKey: key)
         }
-    }
-
-    public init(key: String) {
-        self.key = key
-    }
-
-    public init(wrappedValue: T?, key: String) {
-        self.key = key
-        self.wrappedValue = wrappedValue
     }
 }
 ```
