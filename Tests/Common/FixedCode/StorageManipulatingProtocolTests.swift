@@ -7,8 +7,8 @@
 
 import XCTest
 
-enum Constants {
-    static let languageKey = "languageKey"
+extension PropertyKey {
+    static let languageKey: PropertyKey = "languageKey"
 }
 
 enum Language: String {
@@ -18,7 +18,7 @@ enum Language: String {
 }
 
 struct Settings {
-    @WrappedUserDefault(key: Constants.languageKey, defaultValue: .english)
+    @WrappedUserDefault(key: .languageKey, defaultValue: .english)
     var language: Language
 
     var defaultValueOf_language: Language {
@@ -34,7 +34,7 @@ struct Settings {
 
 class StorageManipulatingProtocolTests: XCTestCase {
     private func reset() {
-        UserDefaults.standard.removeObject(forKey: Constants.languageKey)
+        UserDefaults.standard.removeObject(forKey: PropertyKey.languageKey.rawKey ?? "")
     }
 
     override func setUp() {
@@ -50,7 +50,7 @@ class StorageManipulatingProtocolTests: XCTestCase {
     func testWrappedUserDefault_reseting_and_removing_storage_value_property_without_initial_value() {
         // MARK: property without initialValue
 
-        let key = Constants.languageKey
+        let key = PropertyKey.languageKey.rawKey ?? ""
         XCTAssertNil(UserDefaults.standard.object(forKey: key))
 
         var settings = Settings()

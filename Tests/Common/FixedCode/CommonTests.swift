@@ -22,15 +22,15 @@ class CommonTests: XCTestCase {
     }
     
     private func resetUserDefaults() {
-        UserDefaults.standard.removeObject(forKey: UserSettings.Key.someFlag)
-        UserDefaults.standard.removeObject(forKey: UserSettings.Key.arrayOfStrings)
-        UserDefaults.standard.removeObject(forKey: UserSettings.Key.betterOptionalFlag)
+        UserDefaults.standard.removeObject(forKey: PropertyKey.someFlag.rawKey ?? "")
+        UserDefaults.standard.removeObject(forKey: PropertyKey.arrayOfStrings.rawKey ?? "")
+        UserDefaults.standard.removeObject(forKey: PropertyKey.betterOptionalFlag.rawKey ?? "")
         
-        UserDefaults.standard.removeObject(forKey: UserSettings.Key.rawRepresentableWithIntValue)
-        UserDefaults.standard.removeObject(forKey: UserSettings.Key.rawRepresentableWithStringValue)
-        UserDefaults.standard.removeObject(forKey: UserSettings.Key.rawRepresentableWithDictValue)
-        UserDefaults.standard.removeObject(forKey: UserSettings.Key.optionalRawRepresentableWithDataValue)
-        UserDefaults.standard.removeObject(forKey: UserSettings.Key.rawRepresentableWithArrayOfDates)
+        UserDefaults.standard.removeObject(forKey: PropertyKey.rawRepresentableWithIntValue.rawKey ?? "")
+        UserDefaults.standard.removeObject(forKey: PropertyKey.rawRepresentableWithStringValue.rawKey ?? "")
+        UserDefaults.standard.removeObject(forKey: PropertyKey.rawRepresentableWithDictValue.rawKey ?? "")
+        UserDefaults.standard.removeObject(forKey: PropertyKey.optionalRawRepresentableWithDataValue.rawKey ?? "")
+        UserDefaults.standard.removeObject(forKey: PropertyKey.rawRepresentableWithArrayOfDates.rawKey ?? "")
     }
 
     func testNonOptionalTypeProperty() {
@@ -42,7 +42,7 @@ class CommonTests: XCTestCase {
 
     func testProperty_array_of_strings() {
         // `UserDefaults` value not set
-        XCTAssertNil(UserDefaults.standard.object(forKey: UserSettings.Key.arrayOfStrings))
+        XCTAssertNil(UserDefaults.standard.object(forKey: PropertyKey.arrayOfStrings.rawKey ?? ""))
         
         // check is default value returned when `UserDefaults` value not set
         let defaultValue: [String] = []
@@ -53,14 +53,14 @@ class CommonTests: XCTestCase {
         XCTAssert(settings.arrayOfStrings != newValue, "New value is the same as the old one")
         settings.arrayOfStrings = newValue
         
-        XCTAssertNotNil(UserDefaults.standard.object(forKey: UserSettings.Key.arrayOfStrings))
+        XCTAssertNotNil(UserDefaults.standard.object(forKey: PropertyKey.arrayOfStrings.rawKey ?? ""))
         XCTAssert(settings.arrayOfStrings == newValue, "Invalid value")
         
         // reset to default
-        UserDefaults.standard.removeObject(forKey: UserSettings.Key.arrayOfStrings)
+        UserDefaults.standard.removeObject(forKey: PropertyKey.arrayOfStrings.rawKey ?? "")
         
         // `UserDefaults` value not set
-        XCTAssertNil(UserDefaults.standard.object(forKey: UserSettings.Key.arrayOfStrings))
+        XCTAssertNil(UserDefaults.standard.object(forKey: PropertyKey.arrayOfStrings.rawKey ?? ""))
         XCTAssert(settings.arrayOfStrings == defaultValue, "Invalid value")
     }
 
@@ -75,7 +75,7 @@ class CommonTests: XCTestCase {
     
     func testProperty_raw_representable_with_int_value() {
         // `UserDefaults` value not set
-        XCTAssertNil(UserDefaults.standard.object(forKey: UserSettings.Key.rawRepresentableWithIntValue))
+        XCTAssertNil(UserDefaults.standard.object(forKey: PropertyKey.rawRepresentableWithIntValue.rawKey ?? ""))
         
         // check is default value returned when `UserDefaults` value not set
         let defaultRawValue = 111
@@ -89,22 +89,22 @@ class CommonTests: XCTestCase {
         XCTAssert(settings.rawRepresentableWithIntValue != newValue, "New value is the same as the old one")
         settings.rawRepresentableWithIntValue = newValue
         
-        XCTAssertNotNil(UserDefaults.standard.object(forKey: UserSettings.Key.rawRepresentableWithIntValue))
+        XCTAssertNotNil(UserDefaults.standard.object(forKey: PropertyKey.rawRepresentableWithIntValue.rawKey ?? ""))
         XCTAssert(settings.rawRepresentableWithIntValue.rawValue == newRawValue, "Invalid value")
         XCTAssert(settings.rawRepresentableWithIntValue == newValue, "Invalid value")
         
         // reset to default
-        UserDefaults.standard.removeObject(forKey: UserSettings.Key.rawRepresentableWithIntValue)
+        UserDefaults.standard.removeObject(forKey: PropertyKey.rawRepresentableWithIntValue.rawKey ?? "")
         
         // `UserDefaults` value not set
-        XCTAssertNil(UserDefaults.standard.object(forKey: UserSettings.Key.rawRepresentableWithIntValue))
+        XCTAssertNil(UserDefaults.standard.object(forKey: PropertyKey.rawRepresentableWithIntValue.rawKey ?? ""))
         XCTAssert(settings.rawRepresentableWithIntValue.rawValue == defaultRawValue, "Invalid value")
         XCTAssert(settings.rawRepresentableWithIntValue == defaultValue, "Invalid value")
     }
     
     func testProperty_raw_representable_with_string_value() {
         // `UserDefaults` value not set
-        XCTAssertNil(UserDefaults.standard.object(forKey: UserSettings.Key.rawRepresentableWithStringValue))
+        XCTAssertNil(UserDefaults.standard.object(forKey: PropertyKey.rawRepresentableWithStringValue.rawKey ?? ""))
         
         // check is default value returned when `UserDefaults` value not set
         let defaultRawValue = EnumWithStringAsRawValue.default.rawValue
@@ -120,22 +120,22 @@ class CommonTests: XCTestCase {
         XCTAssert(settings.rawRepresentableWithStringValue != newValue, "New value is the same as the old one")
         settings.rawRepresentableWithStringValue = newValue!
         
-        XCTAssertNotNil(UserDefaults.standard.object(forKey: UserSettings.Key.rawRepresentableWithStringValue))
+        XCTAssertNotNil(UserDefaults.standard.object(forKey: PropertyKey.rawRepresentableWithStringValue.rawKey ?? ""))
         XCTAssert(settings.rawRepresentableWithStringValue.rawValue == newRawValue, "Invalid value")
         XCTAssert(settings.rawRepresentableWithStringValue == newValue, "Invalid value")
         
         // reset to default
-        UserDefaults.standard.removeObject(forKey: UserSettings.Key.rawRepresentableWithStringValue)
+        UserDefaults.standard.removeObject(forKey: PropertyKey.rawRepresentableWithStringValue.rawKey ?? "")
         
         // `UserDefaults` value not set
-        XCTAssertNil(UserDefaults.standard.object(forKey: UserSettings.Key.rawRepresentableWithStringValue))
+        XCTAssertNil(UserDefaults.standard.object(forKey: PropertyKey.rawRepresentableWithStringValue.rawKey ?? ""))
         XCTAssert(settings.rawRepresentableWithStringValue.rawValue == defaultRawValue, "Invalid value")
         XCTAssert(settings.rawRepresentableWithStringValue == defaultValue, "Invalid value")
     }
     
     func testProperty_optional_raw_representable_with_dict_value() {
         // `UserDefaults` value not set
-        XCTAssertNil(UserDefaults.standard.object(forKey: UserSettings.Key.rawRepresentableWithDictValue))
+        XCTAssertNil(UserDefaults.standard.object(forKey: PropertyKey.rawRepresentableWithDictValue.rawKey ?? ""))
         
         // check is default value returned when `UserDefaults` value not set
         let defaultRawValue: [String: [Float]] = [:]
@@ -150,22 +150,22 @@ class CommonTests: XCTestCase {
         XCTAssert(settings.rawRepresentableWithDictValue != newValue, "New value is the same as the old one")
         settings.rawRepresentableWithDictValue = newValue
         
-        XCTAssertNotNil(UserDefaults.standard.object(forKey: UserSettings.Key.rawRepresentableWithDictValue))
+        XCTAssertNotNil(UserDefaults.standard.object(forKey: PropertyKey.rawRepresentableWithDictValue.rawKey ?? ""))
         XCTAssert(settings.rawRepresentableWithDictValue.rawValue == newRawValue, "Invalid value")
         XCTAssert(settings.rawRepresentableWithDictValue == newValue, "Invalid value")
         
         // reset to default
-        UserDefaults.standard.removeObject(forKey: UserSettings.Key.rawRepresentableWithDictValue)
+        UserDefaults.standard.removeObject(forKey: PropertyKey.rawRepresentableWithDictValue.rawKey ?? "")
         
         // `UserDefaults` value not set
-        XCTAssertNil(UserDefaults.standard.object(forKey: UserSettings.Key.rawRepresentableWithDictValue))
+        XCTAssertNil(UserDefaults.standard.object(forKey: PropertyKey.rawRepresentableWithDictValue.rawKey ?? ""))
         XCTAssert(settings.rawRepresentableWithDictValue.rawValue == defaultRawValue, "Invalid value")
         XCTAssert(settings.rawRepresentableWithDictValue == defaultValue, "Invalid value")
     }
     
     func testProperty_optional_raw_representable_with_data_value() {
         // `UserDefaults` value not set
-        XCTAssertNil(UserDefaults.standard.object(forKey: UserSettings.Key.optionalRawRepresentableWithDataValue))
+        XCTAssertNil(UserDefaults.standard.object(forKey: PropertyKey.optionalRawRepresentableWithDataValue.rawKey ?? ""))
         
         // check is default value returned when `UserDefaults` value not set
         XCTAssertNil(settings.optionalRawRepresentableWithDataValue)
@@ -177,20 +177,20 @@ class CommonTests: XCTestCase {
         XCTAssert(settings.optionalRawRepresentableWithDataValue?.rawValue != newRawValue, "New value is the same as the old one")
         settings.optionalRawRepresentableWithDataValue = newValue
         
-        XCTAssertNotNil(UserDefaults.standard.object(forKey: UserSettings.Key.optionalRawRepresentableWithDataValue))
+        XCTAssertNotNil(UserDefaults.standard.object(forKey: PropertyKey.optionalRawRepresentableWithDataValue.rawKey ?? ""))
         XCTAssert(settings.optionalRawRepresentableWithDataValue?.rawValue == newRawValue, "Invalid value")
         
         // reset to default
-        UserDefaults.standard.removeObject(forKey: UserSettings.Key.optionalRawRepresentableWithDataValue)
+        UserDefaults.standard.removeObject(forKey: PropertyKey.optionalRawRepresentableWithDataValue.rawKey ?? "")
         
         // `UserDefaults` value not set
-        XCTAssertNil(UserDefaults.standard.object(forKey: UserSettings.Key.optionalRawRepresentableWithDataValue))
+        XCTAssertNil(UserDefaults.standard.object(forKey: PropertyKey.optionalRawRepresentableWithDataValue.rawKey ?? ""))
         XCTAssertNil(settings.optionalRawRepresentableWithDataValue, "Invalid value")
     }
     
     func testProperty_raw_representable_with_array_of_dates() {
         // `UserDefaults` value not set
-        XCTAssertNil(UserDefaults.standard.object(forKey: UserSettings.Key.rawRepresentableWithArrayOfDates))
+        XCTAssertNil(UserDefaults.standard.object(forKey: PropertyKey.rawRepresentableWithArrayOfDates.rawKey ?? ""))
         
         // check is default value returned when `UserDefaults` value not set
         let defaultRawValue = [Date(timeIntervalSince1970: 0)]
@@ -204,15 +204,15 @@ class CommonTests: XCTestCase {
         XCTAssert(settings.rawRepresentableWithArrayOfDates != newValue, "New value is the same as the old one")
         settings.rawRepresentableWithArrayOfDates = newValue
         
-        XCTAssertNotNil(UserDefaults.standard.object(forKey: UserSettings.Key.rawRepresentableWithArrayOfDates))
+        XCTAssertNotNil(UserDefaults.standard.object(forKey: PropertyKey.rawRepresentableWithArrayOfDates.rawKey ?? ""))
         XCTAssert(settings.rawRepresentableWithArrayOfDates.rawValue == newRawValue, "Invalid value")
         XCTAssert(settings.rawRepresentableWithArrayOfDates == newValue, "Invalid value")
         
         // reset to default
-        UserDefaults.standard.removeObject(forKey: UserSettings.Key.rawRepresentableWithArrayOfDates)
+        UserDefaults.standard.removeObject(forKey: PropertyKey.rawRepresentableWithArrayOfDates.rawKey ?? "")
         
         // `UserDefaults` value not set
-        XCTAssertNil(UserDefaults.standard.object(forKey: UserSettings.Key.rawRepresentableWithArrayOfDates))
+        XCTAssertNil(UserDefaults.standard.object(forKey: PropertyKey.rawRepresentableWithArrayOfDates.rawKey ?? ""))
         XCTAssert(settings.rawRepresentableWithArrayOfDates.rawValue == defaultRawValue, "Invalid value")
         XCTAssert(settings.rawRepresentableWithArrayOfDates == defaultValue, "Invalid value")
     }

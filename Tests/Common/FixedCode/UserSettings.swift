@@ -19,42 +19,44 @@ public enum EnumWithStringAsRawValue: String {
     case some, other, `default` = "default_case"
 }
 
+extension PropertyKey {
+    static let someFlag: PropertyKey = "some_flag"
+    static let flagWithInitialValue: PropertyKey = "flag_with_initial_value"
+    static let arrayOfStrings: PropertyKey = "array_of_strings"
+    static let betterOptionalFlag: PropertyKey = "fixed_optional_flag"
+
+    static let rawRepresentableWithIntValue: PropertyKey = "raw_representable-int"
+    static let rawRepresentableWithStringValue: PropertyKey = "raw_representable-string"
+    static let rawRepresentableWithDictValue: PropertyKey = "raw_representable-dict"
+    static let optionalRawRepresentableWithDataValue: PropertyKey = "optional_raw_representable-data"
+    static let rawRepresentableWithArrayOfDates: PropertyKey = "raw_representable-ArrayOfDates"
+}
+
+public typealias Wrapper = UniversalUserDefault
+
 public class UserSettings {
-    enum Key {
-        static let someFlag = "some_flag"
-        static let flagWithInitialValue = "flag_with_initial_value"
-        static let arrayOfStrings = "array_of_strings"
-        static let betterOptionalFlag = "fixed_optional_flag"
-
-        static let rawRepresentableWithIntValue = "raw_representable-int"
-        static let rawRepresentableWithStringValue = "raw_representable-string"
-        static let rawRepresentableWithDictValue = "raw_representable-dict"
-        static let optionalRawRepresentableWithDataValue = "optional_raw_representable-data"
-        static let rawRepresentableWithArrayOfDates = "raw_representable-ArrayOfDates"
-    }
-
-    @UserDefault(key: Key.someFlag, defaultValue: false)
+    @Wrapper(key: .someFlag, defaultValue: false)
     public var someFlag: Bool
     
-    @UserDefault(key: Key.arrayOfStrings, defaultValue: [])
+    @Wrapper(key: .arrayOfStrings, defaultValue: [])
     public var arrayOfStrings: [String]
 
-    @OptionalUserDefault(key: Key.betterOptionalFlag)
+    @Wrapper(key: .betterOptionalFlag)
     public var betterOptionalFlag: Bool?
 
-    @WrappedUserDefault(key: Key.rawRepresentableWithIntValue, defaultValue: CustomRawRepresentable<Int>(rawValue: 111))
+    @WrappedUserDefault(key: .rawRepresentableWithIntValue, defaultValue: CustomRawRepresentable<Int>(rawValue: 111))
     public var rawRepresentableWithIntValue: CustomRawRepresentable<Int>
 
-    @WrappedUserDefault(key: Key.rawRepresentableWithStringValue, defaultValue: EnumWithStringAsRawValue.default)
+    @WrappedUserDefault(key: .rawRepresentableWithStringValue, defaultValue: EnumWithStringAsRawValue.default)
     public var rawRepresentableWithStringValue: EnumWithStringAsRawValue
 
-    @WrappedUserDefault(key: Key.rawRepresentableWithDictValue, defaultValue: CustomRawRepresentable<[String: [Float]]>(rawValue: [:]))
+    @WrappedUserDefault(key: .rawRepresentableWithDictValue, defaultValue: CustomRawRepresentable<[String: [Float]]>(rawValue: [:]))
     public var rawRepresentableWithDictValue: CustomRawRepresentable<[String: [Float]]>
 
-    @OptionalWrappedUserDefault(key: Key.optionalRawRepresentableWithDataValue)
+    @OptionalWrappedUserDefault(key: .optionalRawRepresentableWithDataValue)
     public var optionalRawRepresentableWithDataValue: CustomRawRepresentable<Data>?
     
-    @WrappedUserDefault(key: Key.rawRepresentableWithArrayOfDates, defaultValue: CustomRawRepresentable<[Date]>(rawValue: [Date(timeIntervalSince1970: 0)]))
+    @WrappedUserDefault(key: .rawRepresentableWithArrayOfDates, defaultValue: CustomRawRepresentable<[Date]>(rawValue: [Date(timeIntervalSince1970: 0)]))
     public var rawRepresentableWithArrayOfDates: CustomRawRepresentable<[Date]>
     
     public init() {}

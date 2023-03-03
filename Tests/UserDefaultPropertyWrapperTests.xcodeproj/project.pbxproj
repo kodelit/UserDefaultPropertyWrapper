@@ -21,6 +21,8 @@
 		59127C322382C233001183B8 /* ProposalUserSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59127C142382B648001183B8 /* ProposalUserSettings.swift */; };
 		59127C332382C234001183B8 /* ProposalImplementation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59127C0C2382B588001183B8 /* ProposalImplementation.swift */; };
 		59127C342382C234001183B8 /* ProposalUserSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59127C142382B648001183B8 /* ProposalUserSettings.swift */; };
+		59B3E4212610F0AB00AD2534 /* UniversalUserDefaultsPropertyWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59B3E4202610F0AB00AD2534 /* UniversalUserDefaultsPropertyWrapper.swift */; };
+		59B3E4222610F0AB00AD2534 /* UniversalUserDefaultsPropertyWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59B3E4202610F0AB00AD2534 /* UniversalUserDefaultsPropertyWrapper.swift */; };
 		59D9E8ED2391E65D00082ACC /* StorageManipulatingProtocolTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59D9E8EC2391E65D00082ACC /* StorageManipulatingProtocolTests.swift */; };
 		59D9E8EE2391E65D00082ACC /* StorageManipulatingProtocolTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59D9E8EC2391E65D00082ACC /* StorageManipulatingProtocolTests.swift */; };
 		A19E0ED1238F353500A636A8 /* UserDefaultsPropertyWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59127C012382ACB2001183B8 /* UserDefaultsPropertyWrapper.swift */; };
@@ -47,6 +49,7 @@
 		59127C272382C201001183B8 /* ProposalTests-ios.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "ProposalTests-ios.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		59127C292382C201001183B8 /* ProposalTests_ios.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProposalTests_ios.swift; sourceTree = "<group>"; };
 		59127C2B2382C201001183B8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		59B3E4202610F0AB00AD2534 /* UniversalUserDefaultsPropertyWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UniversalUserDefaultsPropertyWrapper.swift; sourceTree = "<group>"; };
 		59C51A7E238303270002D580 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
 		59D9E8EC2391E65D00082ACC /* StorageManipulatingProtocolTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageManipulatingProtocolTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -131,6 +134,7 @@
 			isa = PBXGroup;
 			children = (
 				59127C012382ACB2001183B8 /* UserDefaultsPropertyWrapper.swift */,
+				59B3E4202610F0AB00AD2534 /* UniversalUserDefaultsPropertyWrapper.swift */,
 			);
 			name = Source;
 			path = ../Source;
@@ -339,6 +343,7 @@
 				59127BEF2382AC0F001183B8 /* Tests_ios.swift in Sources */,
 				A19E0ED1238F353500A636A8 /* UserDefaultsPropertyWrapper.swift in Sources */,
 				59D9E8EE2391E65D00082ACC /* StorageManipulatingProtocolTests.swift in Sources */,
+				59B3E4222610F0AB00AD2534 /* UniversalUserDefaultsPropertyWrapper.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -351,6 +356,7 @@
 				59127C082382AD83001183B8 /* UserSettings.swift in Sources */,
 				59127BFB2382AC24001183B8 /* Tests_macos.swift in Sources */,
 				59D9E8ED2391E65D00082ACC /* StorageManipulatingProtocolTests.swift in Sources */,
+				59B3E4212610F0AB00AD2534 /* UniversalUserDefaultsPropertyWrapper.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
